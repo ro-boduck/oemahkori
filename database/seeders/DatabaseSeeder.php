@@ -11,22 +11,26 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Create admin user
-        User::create([
-            'name' => 'Admin OemahKori',
-            'email' => 'admin@oemahkori.com',
-            'password' => bcrypt('admin123'),
-            'phone' => '081997186379',
-            'role' => 'admin',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@oemahkori.com'],
+            [
+                'name' => 'Admin OemahKori',
+                'password' => bcrypt('admin123'),
+                'phone' => '081997186379',
+                'role' => 'admin',
+            ]
+        );
 
         // Create sample guest
-        User::create([
-            'name' => 'Guest',
-            'email' => 'guest@example.com',
-            'password' => bcrypt('guest123'),
-            'phone' => '+62 812 0000 0001',
-            'role' => 'guest',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'guest@example.com'],
+            [
+                'name' => 'Guest',
+                'password' => bcrypt('guest123'),
+                'phone' => '+62 812 0000 0001',
+                'role' => 'guest',
+            ]
+        );
 
         // Real OemahKori rooms
         $rooms = [
@@ -65,7 +69,10 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($rooms as $room) {
-            Room::create($room);
+            Room::firstOrCreate(
+                ['name' => $room['name']],
+                $room
+            );
         }
     }
 }
